@@ -1,0 +1,42 @@
+# Dependency directories
+node_modules/
+ios/Pods/
+
+# Build outputs
+ios/build/
+android/app/build/
+android/build/
+dist/
+
+# Configuration files
+.env
+.env.local
+.env.*.local
+
+# Xcode user data
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Android/IntelliJ
+*.iml
+.gradle/
+.idea/
+local.properties
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+
+# TypeScript cache
+*.tscache
+
+# VSCode settings
+.vscode/
