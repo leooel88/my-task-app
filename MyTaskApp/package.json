@@ -1,0 +1,14 @@
+{
+  "name": "myTaskApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react-native": "0.71.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1"
+  }
+}
