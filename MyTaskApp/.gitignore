@@ -1,42 +1,17 @@
-# Dependency directories
 node_modules/
-ios/Pods/
-
-# Build outputs
-ios/build/
-android/app/build/
-android/build/
+.expo/
 dist/
-
-# Configuration files
-.env
-.env.local
-.env.*.local
-
-# Xcode user data
-*.xcuserstate
-*.xcworkspace/xcuserdata/
-*.xcodeproj/xcuserdata/
-
-# Android/IntelliJ
-*.iml
-.gradle/
-.idea/
-local.properties
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
 
 # macOS
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# Logs and temporary files
-*.log
-*.tmp
-*.swp
-*.bak
-
-# TypeScript cache
-*.tscache
-
-# VSCode settings
-.vscode/
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
