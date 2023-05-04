@@ -1,24 +1,21 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/MainStackNavigator';
+import { View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
-
-type Props = {
-  navigation: HomeScreenNavigationProp;
-};
-
-const HomeScreen: React.FC<Props> = ({ navigation }) => {
+const HomeScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
+      {/* Your screen content */}
       <Text>Home Screen</Text>
-      <Button
-        title="Go to Add Task"
-        onPress={() => navigation.navigate('AddTask')}
-      />
     </View>
   );
 };
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  }
+}
 
 export default HomeScreen;
