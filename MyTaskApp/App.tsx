@@ -1,18 +1,9 @@
-import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import MainStackNavigator from './navigation/MainStackNavigator';
-import { initDB } from './services/database';
+// App.tsx or MainStackNavigator.tsx
+import React from 'react';
+import MainLayout from './layouts/MainLayout';
 
-const App = () => {
-  useEffect(() => {
-    initDB();
-  }, []);
-
-  return (
-    <NavigationContainer>
-      <MainStackNavigator />
-    </NavigationContainer>
-  );
+const App: React.FC = () => {
+  return <MainLayout />;
 };
 
 export default App;

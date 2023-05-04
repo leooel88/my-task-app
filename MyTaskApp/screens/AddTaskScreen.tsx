@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import NotificationButton from '../components/NotificationButton';
 import { scheduleNotification } from '../services/notifications';
 
 const AddTaskScreen = () => {
   const handleScheduleNotification = () => {
-    scheduleNotification('1', 'New Task', 'You have a new task', new Date(Date.now() + 5000));
+    scheduleNotification('1', 'New Task', 'You have a new task', new Date(new Date().getTime() + 1000));
   };
 
   return (
