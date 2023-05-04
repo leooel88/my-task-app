@@ -1,11 +1,23 @@
-import * as SQLite from 'expo-sqlite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Task } from '../types/tasks'
 
-const db = SQLite.openDatabase('tasks.db');
+export const addTask = async (task: Task) => {
+  try {
+    const tasksJSON = await AsyncStorage.getItem('tasks');
+    const tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
+    tasks.push(task);
+    await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+  } catch (e) {
+    console.error('Error adding task:', e);
+  }
+};
 
-export const initDB = () => {
-  db.transaction((tx) => {
-    tx.executeSql(
-      'CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, due_date TEXT);',
-    );
-  });
+export const getTasks = async () => {
+  try {
+    const tasksJSON = await AsyncStorage.getItem('tasks');
+    return tasksJSON ? JSON.parse(tasksJSON) : [];
+  } catch (e) {
+    console.error('Error getting tasks:', e);
+    return [];
+  }
 };

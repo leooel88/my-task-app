@@ -4,6 +4,7 @@ import ScreenContext from '../contexts/ScreenContext';
 import TabNavigator from '../components/TabNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import AddTaskScreen from '../screens/AddTaskScreen';
+import TaskDetailsScreen from '../screens/TaskDetailsScreen'
 
 interface ScreenComponents {
   [key: string]: JSX.Element;
@@ -15,7 +16,7 @@ const MainLayout: React.FC = () => {
   const screenComponents: ScreenComponents = {
     Home: <HomeScreen />,
     AddTask: <AddTaskScreen />,
-    AddTask2: <AddTaskScreen />,
+    TaskList: <TaskDetailsScreen />,
   };
 
   return (

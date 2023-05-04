@@ -7,10 +7,12 @@ import TaskIcon from '../assets/icons/TaskIcon'
 import TaskSolidIcon from '../assets/icons/TaskSolidIcon'
 import TaskListIcon from '../assets/icons/TaskListIcon'
 import TaskListSolidIcon from '../assets/icons/TaskListSolidIcon'
+import AddTaskOverlay from './AddTaskOverlay';
 
 const TabNavigator: React.FC = () => {
   const { setCurrentScreen } = useContext(ScreenContext);
   const [ localCurrentScreen, setLocalCurrentScreen ] = useState('Home')
+  const [addTaskOverlayVisible, setAddTaskOverlayVisible] = useState(false);
 
   const setScreen = (screen: string) => {
     setCurrentScreen(screen)
@@ -19,6 +21,10 @@ const TabNavigator: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <AddTaskOverlay
+        visible={addTaskOverlayVisible}
+        onClose={() => setAddTaskOverlayVisible(false)}
+      />
       <View style={styles.navbar}>
         <Pressable onPress={() => setScreen('Home')}>
           <View>
@@ -29,7 +35,10 @@ const TabNavigator: React.FC = () => {
               )}
           </View>
         </Pressable>
-        <Pressable onPress={() => setScreen('AddTask')}>
+        <Pressable onPress={() => {
+            setAddTaskOverlayVisible(true)
+            setLocalCurrentScreen('AddTask')
+          }}>
           <View>
               {localCurrentScreen === 'AddTask' ? (
                   <TaskSolidIcon height={30} width={30} />
@@ -38,9 +47,9 @@ const TabNavigator: React.FC = () => {
                 )}
           </View>
         </Pressable>
-        <Pressable onPress={() => setScreen('AddTask2')}>
+        <Pressable onPress={() => setScreen('TaskList')}>
           <View>
-              {localCurrentScreen === 'AddTask2' ? (
+              {localCurrentScreen === 'TaskList' ? (
                   <TaskListSolidIcon height={30} width={30} />
                 ) : (
                   <TaskListIcon height={30} width={30} />
