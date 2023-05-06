@@ -6,6 +6,8 @@ import * as Crypto from 'expo-crypto';
 import { addTask } from '../services/database';
 import { Task, FrequencyUnit } from '../types/tasks'
 import TaskListContext from '../contexts/TaskListContext';
+import { schedulePushNotification } from '../services/notification';
+import * as Notifications from 'expo-notifications';
 
 const generateUniqueId = async () => {
   const randomString = Math.random().toString(36).substring(2, 10);
@@ -29,13 +31,32 @@ const AddTaskOverlay: React.FC<AddTaskOverlayProps> = ({ visible, onClose, onTas
   const [firstOccurrence, setFirstOccurrence] = useState(new Date());
   const [frequency, setFrequency] = useState({ unit: "hour" as unknown as FrequencyUnit, value: 1 });
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   const handleChangeDate = (event: DateTimePickerEvent, date?: Date | undefined) => {
-    setShowDatePicker(false);
-    if (!date || typeof date == 'undefined') {
-      return;
+    if (event.type === 'dismissed') {
+      setShowDatePicker(false);
+    } else if (date) {
+      setShowDatePicker(false);
+      setFirstOccurrence(date);
     }
-    setFirstOccurrence(date);
+  }
+
+  const handleChangeTime = (event: DateTimePickerEvent, time?: Date | undefined) => {
+    if (event.type === 'dismissed') {
+      setShowTimePicker(false);
+    } else if (time) {
+      setShowTimePicker(false);
+      setFirstOccurrence(new Date(firstOccurrence.setHours(time.getHours(), time.getMinutes())));
+    }
+  };
+
+  const resetState = () => {
+    setStep(1)
+    setTaskName('')
+    setFirstOccurrence(new Date())
+    setFrequency({ unit: "hour" as unknown as FrequencyUnit, value: 1 })
+    setShowDatePicker(false)
   }
 
   const handleSubmit = async () => {
@@ -44,15 +65,16 @@ const AddTaskOverlay: React.FC<AddTaskOverlayProps> = ({ visible, onClose, onTas
         id: (await generateUniqueId()),
         name: taskName,
         firstOccurrence,
-        frequency
+        frequency,
+        notificationId: ''
       };
+      const notificationId = await schedulePushNotification(newTask);
+      if (notificationId) {
+        newTask.notificationId = notificationId
+      }
       await addTask(newTask);
       setTasks([...tasks, newTask]);
-      setStep(1)
-      setTaskName('')
-      setFirstOccurrence(new Date())
-      setFrequency({ unit: "hour" as unknown as FrequencyUnit, value: 1 })
-      setShowDatePicker(false)
+      resetState();
       onClose();
       onTaskAdded();
     } else {
@@ -80,10 +102,19 @@ const AddTaskOverlay: React.FC<AddTaskOverlayProps> = ({ visible, onClose, onTas
                   <Text onPress={() => setShowDatePicker(true)}>{firstOccurrence.toLocaleDateString()}</Text>
                   {showDatePicker  && <DateTimePicker
                     value={firstOccurrence}
-                    mode={'date'}
-                    display={'calendar'}
+                    mode={"date"}
+                    display={"default"}
                     onChange={handleChangeDate}
                   />}
+                  <Text onPress={() => setShowTimePicker(true)}>{firstOccurrence.toLocaleTimeString()}</Text>
+                  {showTimePicker && (
+                    <DateTimePicker
+                      value={firstOccurrence}
+                      mode={"time"}
+                      display={"default"}
+                      onChange={handleChangeTime}
+                    />
+                  )}
                 </>
               )}
 

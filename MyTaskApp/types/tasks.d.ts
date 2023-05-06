@@ -6,6 +6,7 @@ export interface Task {
     value: number;
     unit: FrequencyUnit;
   };
+  notificationId: string;
 }
 
 export type FrequencyUnit = 'hour' | 'day' | 'month';

@@ -4,6 +4,7 @@ import TaskDetailOverlay from '../components/TaskDetailOverlay';
 import { getTasks, removeTask } from '../services/database'
 import { Task } from '../types/tasks'
 import TaskListContext from '../contexts/TaskListContext';
+import * as Notifications from 'expo-notifications';
 
 const TaskListScreen: React.FC = () => {
   const { tasks, setTasks } = useContext(TaskListContext);
@@ -18,6 +19,12 @@ const TaskListScreen: React.FC = () => {
   }, []);
 
   const handleDeleteTask = async (taskId: string) => {
+    const taskToDelete = tasks.find((task: Task) => task.id === taskId);
+
+    if (taskToDelete) {
+      await Notifications.cancelScheduledNotificationAsync(taskToDelete.notificationId);
+    }
+
     await removeTask(taskId);
     const updatedTasks = tasks.filter((task: Task) => task.id !== taskId);
     setTasks(updatedTasks);
@@ -56,7 +63,7 @@ const TaskListScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
     paddingTop: 20,
   },
   header: {
