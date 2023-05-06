@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableWithoutFeedback } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import * as Crypto from 'expo-crypto';
-
 import { addTask } from '../services/database';
-import { FrequencyUnit } from '../types/tasks'
+import { Task, FrequencyUnit } from '../types/tasks'
+import TaskListContext from '../contexts/TaskListContext';
 
 const generateUniqueId = async () => {
   const randomString = Math.random().toString(36).substring(2, 10);
@@ -19,9 +19,11 @@ const generateUniqueId = async () => {
 interface AddTaskOverlayProps {
   visible: boolean;
   onClose: () => void;
+  onTaskAdded: () => void;
 }
 
-const AddTaskOverlay: React.FC<AddTaskOverlayProps> = ({ visible, onClose }) => {
+const AddTaskOverlay: React.FC<AddTaskOverlayProps> = ({ visible, onClose, onTaskAdded }) => {
+  const { tasks, setTasks } = useContext(TaskListContext);
   const [step, setStep] = useState(1);
   const [taskName, setTaskName] = useState('');
   const [firstOccurrence, setFirstOccurrence] = useState(new Date());
@@ -29,27 +31,30 @@ const AddTaskOverlay: React.FC<AddTaskOverlayProps> = ({ visible, onClose }) => 
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleChangeDate = (event: DateTimePickerEvent, date?: Date | undefined) => {
+    setShowDatePicker(false);
     if (!date || typeof date == 'undefined') {
       return;
     }
     setFirstOccurrence(date);
-    setShowDatePicker(false);
   }
 
   const handleSubmit = async () => {
     if (step === 3) {
-      await addTask({
+      const newTask: Task = {
         id: (await generateUniqueId()),
         name: taskName,
         firstOccurrence,
         frequency
-      });
+      };
+      await addTask(newTask);
+      setTasks([...tasks, newTask]);
       setStep(1)
       setTaskName('')
       setFirstOccurrence(new Date())
       setFrequency({ unit: "hour" as unknown as FrequencyUnit, value: 1 })
       setShowDatePicker(false)
       onClose();
+      onTaskAdded();
     } else {
       setStep(step + 1);
     }

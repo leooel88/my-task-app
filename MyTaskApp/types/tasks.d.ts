@@ -8,8 +8,4 @@ export interface Task {
   };
 }
 
-export interface FrequencyUnit {
-  'hour'
-  'day'
-  'month'
-}
+export type FrequencyUnit = 'hour' | 'day' | 'month';
