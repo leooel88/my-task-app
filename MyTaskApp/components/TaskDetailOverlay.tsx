@@ -21,6 +21,9 @@ const TaskDetailOverlay: React.FC<TaskDetailOverlayProps> = ({ task, onClose, on
             <Text>
               Frequency: {task.frequency.value} {task.frequency.unit}
             </Text>
+            <Text>
+              Notification ID : {task.notificationId} 
+            </Text>
             <TouchableOpacity onPress={() => {
                 onDelete(task.id)
                 onClose()

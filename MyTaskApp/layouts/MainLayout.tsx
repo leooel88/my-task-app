@@ -4,7 +4,6 @@ import { TaskListProvider } from '../contexts/TaskListContext';
 import ScreenContext from '../contexts/ScreenContext';
 import TabNavigator from '../components/TabNavigator';
 import HomeScreen from '../screens/HomeScreen';
-import AddTaskScreen from '../screens/AddTaskScreen';
 import TaskListScreen from '../screens/TaskListScreen'
 
 interface ScreenComponents {
@@ -16,7 +15,6 @@ const MainLayout: React.FC = () => {
 
   const screenComponents: ScreenComponents = {
     Home: <HomeScreen />,
-    AddTask: <AddTaskScreen />,
     TaskList: <TaskListScreen />,
   };
 
