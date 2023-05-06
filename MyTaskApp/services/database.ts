@@ -21,3 +21,16 @@ export const getTasks = async () => {
     return [];
   }
 };
+
+export const removeTask = async (taskId: string) => {
+  try {
+    const tasksJSON = await AsyncStorage.getItem('tasks');
+    const tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
+
+    const updatedTasks = tasks.filter((task: Task) => task.id !== taskId);
+    await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  } catch (e) {
+    console.error('Error removing task:', e);
+  }
+};
+

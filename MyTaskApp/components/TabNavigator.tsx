@@ -24,6 +24,7 @@ const TabNavigator: React.FC = () => {
       <AddTaskOverlay
         visible={addTaskOverlayVisible}
         onClose={() => setAddTaskOverlayVisible(false)}
+        onTaskAdded={() => setScreen('TaskList')}
       />
       <View style={styles.navbar}>
         <Pressable onPress={() => setScreen('Home')}>

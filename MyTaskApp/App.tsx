@@ -1,9 +1,9 @@
 // App.tsx or MainStackNavigator.tsx
 import React from 'react';
-import MainLayout from './layouts/MainLayout';
+import MainLayoutWrapper from './layouts/MainLayout';
 
 const App: React.FC = () => {
-  return <MainLayout />;
+  return <MainLayoutWrapper />;
 };
 
 export default App;
